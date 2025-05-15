@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  nest-courses-prod:
+    build:
+      context: ./
+      dockerfile: dockerfile.prod
+      args:
+        - DATABASE_URL=${DATABASE_URL}
+    image: courses-prod
+    #ports:
+    #  - 8080:8080
+    environment:
+      PORT: 8080
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
