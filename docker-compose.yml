@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  backend-courses:
+    build: ./
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      PORT: 3000
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: file:./dev.db
