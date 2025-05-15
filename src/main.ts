@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConsoleLogger, Logger, ValidationPipe } from '@nestjs/common';
 import { envs } from './config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
 
@@ -27,6 +28,27 @@ async function bootstrap() {
             },
         }),
     );
+    const config = new DocumentBuilder()
+        .setTitle('Courses')
+        .setVersion('1.0')
+        .addSecurity('basic', {
+            type: 'http',
+            scheme: 'basic',
+        })
+        .addBearerAuth(
+            {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+                name: 'JWT',
+                description: 'Enter JWT token',
+                in: 'header',
+            },
+            'JWT-auth', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+        ).build();
+
+    const documentFactory = () => SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('swagger', app, documentFactory);
 
     await app.listen(envs.PORT);
 
