@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+prisma/dev.db
+.vscode
+tests
+*.log
+*.sqlite
+*.db
+.git
+uploads
+coverage
