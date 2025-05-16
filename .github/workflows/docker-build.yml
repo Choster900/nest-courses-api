@@ -20,7 +20,7 @@ jobs:
 
       - name: Set up Docker auth for GCP
         run: |
-          echo "${{ secrets.GCP_KEY_JSON }}" > key.json
+          echo "${{ secrets.GCP_KEY_JSON_BASE64 }}" | base64 -d > key.json
           gcloud auth activate-service-account --key-file=key.json
           gcloud auth configure-docker northamerica-south1-docker.pkg.dev
 
