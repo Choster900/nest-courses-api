@@ -1,33 +1,48 @@
-name: Build and Push to GCP Artifact Registry
+name: Deploy to Cloud Run
+
+env:
+  SERVICE_NAME: custom-fastapi-service
+  PROJECT_ID: microservicios-udemy-454719
+  DOCKER_IMAGE_URL: northamerica-south1-docker.pkg.dev/microservicios-udemy-454719/image-registry/courses-api:v1.0.0
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build-and-push:
+  dockerize-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Install gcloud
-        uses: google-github-actions/setup-gcloud@v2
+      - name: Google Cloud Auth
+        uses: 'google-github-actions/auth@v2'
         with:
-          project_id: courses-api
-          service_account_key: ${{ secrets.GCP_KEY_JSON }}
+          credentials_json: '${{ secrets.GCP_KEY_JSON }}'
+          project_id: ${{ env.PROJECT_ID }}
 
-      - name: Set up Docker auth for GCP
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: Configure Docker
         run: |
-            printf '%s' "${{ secrets.GCP_KEY_JSON }}" > key.json
-            gcloud auth activate-service-account --key-file=key.json
-            gcloud auth configure-docker northamerica-south1-docker.pkg.dev
+          gcloud auth configure-docker northamerica-south1-docker.pkg.dev
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./dockerfile.prod
-          push: true
-          tags: northamerica-south1-docker.pkg.dev/microservicios-udemy-454719/image-registry/courses-api:v1.0.0
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE_URL }} -f Dockerfile.prod .
+          docker push ${{ env.DOCKER_IMAGE_URL }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.DOCKER_IMAGE_URL }} \
+            --platform managed \
+            --region northamerica-south1 \
+            --allow-unauthenticated
