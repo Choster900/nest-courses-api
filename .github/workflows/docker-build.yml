@@ -18,7 +18,7 @@ jobs:
           project_id: courses-api
           service_account_key: ${{ secrets.GCP_KEY_JSON }}
 
-      - name: Set up Docker auth for GCP -
+      - name: Set up Docker auth for GCP
         run: |
           echo '${{ secrets.GCP_KEY_JSON }}' > key.json
           gcloud auth activate-service-account --key-file=key.json

@@ -29,7 +29,7 @@ export class AuthController {
     }
 
     @Get('private-route')
-    @Roles('USER')
+    @Roles('ADMIN')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @ApiOperation({ summary: 'Ruta protegida solo accesible para usuarios autenticados con rol USER' })
     @ApiResponse({ status: 200, description: 'Acceso concedido a la ruta privada' })
