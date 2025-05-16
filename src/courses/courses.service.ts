@@ -88,7 +88,7 @@ export class CoursesService extends PrismaClient implements OnModuleInit {
         }
     }
 
-    private async getCourseById(id: string, onlyPublished = true) {
+    public async getCourseById(id: string, onlyPublished = true) {
         return this.course.findUnique({
             where: { id },
             ...(onlyPublished && { where: { id, published: true } }),
