@@ -1,0 +1,32 @@
+name: Build and Push to GCP Artifact Registry
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker auth for GCP
+        run: |
+          echo "${{ secrets.GCP_KEY_JSON }}" > key.json
+          gcloud auth activate-service-account --key-file=key.json
+          gcloud auth configure-docker REGION-docker.pkg.dev
+
+      - name: Install gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: tu-proyecto
+          service_account_key: ${{ secrets.GCP_KEY_JSON }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: REGION-docker.pkg.dev/TU_PROYECTO/TU_REPO/TU_IMAGEN:latest
