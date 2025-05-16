@@ -7,7 +7,7 @@ services:
       dockerfile: dockerfile.prod
       args:
         - DATABASE_URL=${DATABASE_URL}
-    image: courses-api:v1.0.0
+    image: northamerica-south1-docker.pkg.dev/microservicios-udemy-454719/image-registry/courses-api:v1.0.0
     #ports:
     #  - 8080:8080
     environment:
