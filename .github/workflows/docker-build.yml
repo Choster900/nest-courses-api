@@ -18,8 +18,11 @@ jobs:
           project_id: courses-api
           service_account_key: ${{ secrets.GCP_KEY_JSON }}
 
-      - name: Configure Docker for GCP
-        run: gcloud auth configure-docker northamerica-south1-docker.pkg.dev
+      - name: Set up Docker auth for GCP -
+        run: |
+          echo '${{ secrets.GCP_KEY_JSON }}' > key.json
+          gcloud auth activate-service-account --key-file=key.json
+          gcloud auth configure-docker northamerica-south1-docker.pkg.dev
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
