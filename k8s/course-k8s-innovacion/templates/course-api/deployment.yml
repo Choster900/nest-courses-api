@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: course-api
+  name: course-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: course-api
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: course-api
+    spec:
+      containers:
+        - image: northamerica-south1-docker.pkg.dev/microservicios-udemy-454719/image-registry/courses-api:v1.0.0
+          name: courses-api
+          env:
+          - name: DATABASE_URL
+            value: "file:./dev.db"
+          - name: JWT_SECRET
+            value: "jsonwebtokensecretQ"
+          resources: {}
+status: {}
