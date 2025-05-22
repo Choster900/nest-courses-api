@@ -48,9 +48,9 @@ async function bootstrap() {
         const document = SwaggerModule.createDocument(app, config);
         SwaggerModule.setup('swagger', app, document);
 
-        await app.listen(envs.PORT || 8080);
+        await app.listen(envs.PORT);
 
-        logger.log(`✅ App is listening on port ${envs.PORT || 8080}`);
+        logger.log(`✅ App is listening on port ${envs.PORT}`);
     } catch (err) {
         console.error('❌ Error starting app:', err);
     }
