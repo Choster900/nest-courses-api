@@ -44,9 +44,10 @@ RUN chmod +x entrypoint.sh
 
 ENV PORT=8080
 
-USER node
+#USER node
 
 EXPOSE 8080
 
 #CMD ["node", "dist/src/main.js"]
-ENTRYPOINT ["./entrypoint.sh"]  # ⬅️ Usa el script como entrada
+#ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
