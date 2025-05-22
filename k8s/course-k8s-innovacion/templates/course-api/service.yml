@@ -7,10 +7,10 @@ metadata:
   name: course-api
 spec:
   ports:
-  - name: "8080"
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: http
+      port: 80 # Puerto expuesto para el Ingress o tráfico externo
+      targetPort: 3000 # El puerto en el contenedor donde tu app escucha
+      protocol: TCP
   selector:
     app: course-api
   type: NodePort

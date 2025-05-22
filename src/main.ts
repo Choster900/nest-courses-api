@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConsoleLogger, Logger, ValidationPipe } from '@nestjs/common';
+import { ConsoleLogger, Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { envs } from './config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -14,7 +14,12 @@ async function bootstrap() {
             }),
         });
 
-        app.setGlobalPrefix('api');
+        app.setGlobalPrefix('api', {
+            exclude: [{
+                path: '',
+                method: RequestMethod.GET
+            }]
+        });
 
         app.useGlobalPipes(
             new ValidationPipe({
