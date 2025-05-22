@@ -11,6 +11,6 @@ services:
     #ports:
     #  - 8080:8080
     environment:
-      PORT: 8080
+      PORT: 3000
       JWT_SECRET: ${JWT_SECRET}
       DATABASE_URL: ${DATABASE_URL}

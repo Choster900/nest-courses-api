@@ -11,7 +11,7 @@ interface EnvsVars {
 }
 
 const envSchema = joi.object<EnvsVars>({
-    PORT: joi.number().required()/* .default(8080) */,
+    PORT: joi.number().required(),
     DATABASE_URL: joi.string().required(),
     JWT_SECRET: joi.string().required(),
 
