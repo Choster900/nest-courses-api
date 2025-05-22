@@ -42,11 +42,12 @@ COPY --from=builder /usr/src/app/prisma ./prisma
 COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
-ENV PORT=8080
+ENV PORT=3000
 
 #USER node
 
-EXPOSE 8080
+EXPOSE 3000
+#EXPOSE 8080#
 
 #CMD ["node", "dist/src/main.js"]
 #ENTRYPOINT ["./entrypoint.sh"]

@@ -21,11 +21,11 @@ spec:
         - image: northamerica-south1-docker.pkg.dev/microservicios-udemy-454719/image-registry/courses-api:v1.0.0
           name: courses-api
           env:
-            - name: PORT
-              value: "8080"
-            - name: DATABASE_URL
-              value: "file:./dev.db"
-            - name: JWT_SECRET
-              value: "jsonwebtokensecretQ"
+          - name: PORT
+            value: "8080"
+          - name: DATABASE_URL
+            value: "file:./dev.db"
+          - name: JWT_SECRET
+            value: "jsonwebtokensecretQ"
           resources: {}
 status: {}
