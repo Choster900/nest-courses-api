@@ -10,6 +10,6 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: courses-api
+                name: course-api
                 port:
                   number: 3000
